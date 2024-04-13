@@ -1,4 +1,4 @@
-// Vertex shader program
+// Kevin Chen ASG1 4/13/24
 
 var VSHADER_SOURCE = `
   attribute vec4 a_Position;
@@ -7,7 +7,7 @@ var VSHADER_SOURCE = `
     gl_Position = a_Position;
     //gl_PointSize = 30.0;
     gl_PointSize = u_Size;
-  }`
+  }`;
 
 // Fragment shader program
 var FSHADER_SOURCE = `
@@ -15,22 +15,7 @@ var FSHADER_SOURCE = `
   uniform vec4 u_FragColor;
   void main() {
     gl_FragColor = u_FragColor;
-  }`
-
-// var VSHADER_SOURCE =
-//   "attribute vec4 a_Position;\n" +
-//   "void main() {\n" +
-//   "  gl_Position = a_Position;\n" +
-//   "  gl_PointSize = 10.0;\n" +
-//   "}\n";
-
-// // Fragment shader program
-// var FSHADER_SOURCE =
-//   "precision mediump float;\n" +
-//   "uniform vec4 u_FragColor;\n" + // uniform変数
-//   "void main() {\n" +
-//   "  gl_FragColor = u_FragColor;\n" +
-//   "}\n";
+  }`;
 
 let canvas;
 let gl;
@@ -44,7 +29,7 @@ function setupWebGL() {
 
   // Get the rendering context for WebGL
   //gl = getWebGLContext(canvas);
-  gl = canvas.getContext("webgl", { preserveDrawingBuffer: true});
+  gl = canvas.getContext("webgl", { preserveDrawingBuffer: true });
   if (!gl) {
     console.log("Failed to get the rendering context for WebGL");
     return;
@@ -72,9 +57,9 @@ function connectVariablesToGLSL() {
     return;
   }
   // Get the storage location of u_Size
-  u_Size = gl.getUniformLocation(gl.program, 'u_Size');
+  u_Size = gl.getUniformLocation(gl.program, "u_Size");
   if (!u_Size) {
-    console.log('Failed to get the storage location of u_Size');
+    console.log("Failed to get the storage location of u_Size");
     return;
   }
 }
@@ -84,43 +69,60 @@ const POINT = 0;
 const TRIANGLE = 1;
 const CIRCLE = 2;
 
-
 // Global for UI
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
 let g_selectedType = POINT;
 let g_numSegments = 6;
 
-
 function addActionsForHtmlUI() {
+  // Button for Red and Green
+  document.getElementById("green").onclick = function () {
+    g_selectedColor = [0.0, 1.0, 0.0, 1.0];
+  };
+  document.getElementById("red").onclick = function () {
+    g_selectedColor = [1.0, 0.0, 0.0, 1.0];
+  };
 
-    // Button for Red and Green
-    document.getElementById("green").onclick = function() { g_selectedColor = [0.0, 1.0, 0.0, 1.0]; };
-    document.getElementById("red").onclick = function() { g_selectedColor = [1.0, 0.0, 0.0, 1.0]; };
+  // Sliders for Red Green and Blue
+  document.getElementById("redSlide").addEventListener("mouseup", function () {
+    g_selectedColor[0] = this.value / 100;
+  });
+  document
+    .getElementById("greenSlide")
+    .addEventListener("mouseup", function () {
+      g_selectedColor[1] = this.value / 100;
+    });
+  document.getElementById("blueSlide").addEventListener("mouseup", function () {
+    g_selectedColor[2] = this.value / 100;
+  });
 
-    // Sliders for Red Green and Blue
-    document.getElementById("redSlide").addEventListener("mouseup", function() {g_selectedColor[0] = this.value/100; });
-    document.getElementById("greenSlide").addEventListener("mouseup", function() {g_selectedColor[1] = this.value/100; });
-    document.getElementById("blueSlide").addEventListener("mouseup", function() {g_selectedColor[2] = this.value/100; });
+  // Size and segment Slider
+  document.getElementById("sizeSlide").addEventListener("mouseup", function () {
+    g_selectedSize = this.value;
+  });
+  document
+    .getElementById("segmentSlide")
+    .addEventListener("mouseup", function () {
+      g_numSegments = this.value;
+    });
 
-    // Size Slider
-    document.getElementById("sizeSlide").addEventListener("mouseup", function() {g_selectedSize = this.value; });
+  // Clear Button
+  document.getElementById("clearButton").onclick = function () {
+    g_shapeList = [];
+    renderAllShapes();
+  };
 
-    // Clear Button
-    document.getElementById("clearButton").onclick = function() {g_shapeList=[]; renderAllShapes();};
-
-    // Shape button
-    document.getElementById("pointButton").onclick = function() {g_selectedType=POINT};
-    document.getElementById("triangleButton").onclick = function() {g_selectedType=TRIANGLE};
-
-    // Segment Slider
-    document.getElementById('segmentSlide').addEventListener("mouseup", function () {g_numSegments = this.value; });
-
-    // Circle Button
-    document.getElementById("circleButton").onclick = function() {g_selectedType=CIRCLE};
-
-
-
+  // Shape button
+  document.getElementById("pointButton").onclick = function () {
+    g_selectedType = POINT;
+  };
+  document.getElementById("triangleButton").onclick = function () {
+    g_selectedType = TRIANGLE;
+  };
+  document.getElementById("circleButton").onclick = function () {
+    g_selectedType = CIRCLE;
+  };
 }
 
 function main() {
@@ -134,7 +136,11 @@ function main() {
   canvas.onmousedown = click;
 
   // Drag mouse to draw
-  canvas.onmousemove = function(ev) {if(ev.buttons == 1) {click(ev) } };
+  canvas.onmousemove = function (ev) {
+    if (ev.buttons == 1) {
+      click(ev);
+    }
+  };
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -145,56 +151,24 @@ function main() {
 
 var g_shapeList = [];
 
-// var g_points = []; // The array for the position of a mouse press
-// var g_colors = []; // The array to store the color of a point
-// var g_sizes =  [];
-
 function click(ev) {
   let [x, y] = convertCoordinatesEventToGL(ev);
 
   let point = new Point();
 
-  if(g_selectedType == POINT)
-  {
+  if (g_selectedType == POINT) {
     point = new Point();
-
-  }
-  else if (g_selectedType == TRIANGLE)
-  {
+  } else if (g_selectedType == TRIANGLE) {
     point = new Triangle();
-  }
-
-  else
-  {
+  } else {
     point = new Circle();
     point.segments = g_numSegments;
   }
 
-
-
-
-  point.position = [x,y];
+  point.position = [x, y];
   point.color = g_selectedColor.slice();
   point.size = g_selectedSize;
   g_shapeList.push(point);
-
-//   g_points.push([x, y]);
-
-//   g_colors.push(g_selectedColor.slice());
-
-//   g_sizes.push(g_selectedSize);
-
-//   // Store the coordinates to g_points array
-//   if (x >= 0.0 && y >= 0.0) {
-//     // First quadrant
-//     g_colors.push([1.0, 0.0, 0.0, 1.0]); // Red
-//   } else if (x < 0.0 && y < 0.0) {
-//     // Third quadrant
-//     g_colors.push([0.0, 1.0, 0.0, 1.0]); // Green
-//   } else {
-//     // Others
-//     g_colors.push([1.0, 1.0, 1.0, 1.0]); // White
-//   }
 
   renderAllShapes();
 }
@@ -219,7 +193,6 @@ function renderAllShapes() {
   var len = g_shapeList.length;
 
   for (var i = 0; i < len; i++) {
-
     g_shapeList[i].render();
   }
 }
