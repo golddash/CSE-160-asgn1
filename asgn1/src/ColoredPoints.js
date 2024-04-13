@@ -82,6 +82,7 @@ function connectVariablesToGLSL() {
 // Const
 const POINT = 0;
 const TRIANGLE = 1;
+const CIRCLE = 2;
 
 
 // Global for UI
@@ -110,6 +111,11 @@ function addActionsForHtmlUI() {
     // Shape button
     document.getElementById("pointButton").onclick = function() {g_selectedType=POINT};
     document.getElementById("triangleButton").onclick = function() {g_selectedType=TRIANGLE};
+
+    // Segment Slider
+
+    // Circle Button
+    document.getElementById("circleButton").onclick = function() {g_selectedType=CIRCLE};
 
 
 
@@ -151,10 +157,16 @@ function click(ev) {
     point = new Point();
 
   }
-  else
+  else if (g_selectedType == TRIANGLE)
   {
     point = new Triangle();
   }
+
+  else
+  {
+    point = new Circle();
+  }
+
 
 
 
