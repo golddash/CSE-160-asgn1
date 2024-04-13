@@ -13,24 +13,38 @@
     <br>
 
     Shapes
-    <button id="pointButton"> Point </button>
-    <button id="triangleButton"> Triangle </button>
-    <button id="circleButton"> Circle </button>
-    <button id="clearButton"> Clear </button>
+    <button type="button" id="pointButton"> Point </button>
+    <button type="button" id="triangleButton"> Triangle </button>
+    <button type="button" id="circleButton"> Circle </button>
+    <button type="button" id="clearButton"> Clear </button>
 
     <br><br>
 
     Color Buttons
-    <button id="red"> Red </button>
-    <button id="green"> Green</button>
-    <button id="blue"> Blue </button>
+    <button type="button" id="red"> Red </button>
+    <button type="button" id="green"> Green</button>
 
     <br><br>
-    Color Sliders
+    Color Sliders:
 
-    
+    Red <input type="range" min="0" max="100" value="100" class="slider" id="redSlide">
+    Green <input type="range" min="0" max="100" value="100" class="slider" id="greenSlide">
+    Blue <input type="range" min="0" max="100" value="100" class="slider" id="blueSlide">
 
-    
-    
+    <br><br>
+    Size <input type="range" min="0" max="100" value="100" class="slider" id="sizeSlide">
+
+    Segment <input type="range" min="0" max="100" value="100" class="slider" id="segmentSlide">
+
+    <script src="Point.js"></script>
+    <script src="Circle.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="ColoredPoints.js"></script>
+
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/webgl-utils.js"></script>
+
+   
 </body>
 </html>
