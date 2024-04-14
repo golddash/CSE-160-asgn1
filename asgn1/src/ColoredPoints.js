@@ -1,5 +1,7 @@
 // Kevin Chen ASG1 4/13/24
 
+// test commit drawing
+
 var VSHADER_SOURCE = `
   attribute vec4 a_Position;
   uniform float u_Size;
