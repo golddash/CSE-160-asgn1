@@ -131,6 +131,11 @@ function addActionsForHtmlUI() {
     g_shapeList = [];
     drawPicture();
   };
+
+  document.getElementById("awesomeButton").onclick = function () {
+    g_shapeList = [];
+    generateRandomDrawing();
+  };
 }
 
 function main() {
@@ -205,7 +210,7 @@ function renderAllShapes() {
   }
 }
 
-// test add 
+// test add
 
 function drawPicture() {
   pictureTriangle([-1, 1, -1, -1, 1, 1], [0.529, 0.808, 0.922, 1.0]); // Light blue for the sky
@@ -295,10 +300,7 @@ function drawPicture() {
   );
 
   // Bird 1
-  pictureTriangle(
-    [0.1, 0.9, 0.12, 0.88, 0.14, 0.9], 
-    [0.0, 0.0, 0.0, 1.0]
-  ); // Body
+  pictureTriangle([0.1, 0.9, 0.12, 0.88, 0.14, 0.9], [0.0, 0.0, 0.0, 1.0]); // Body
   pictureTriangle([0.12, 0.88, 0.14, 0.9, 0.12, 0.92], [0.0, 0.0, 0.0, 1.0]); // Head
   pictureTriangle([0.14, 0.9, 0.16, 0.88, 0.18, 0.9], [0.0, 0.0, 0.0, 1.0]); // Wing
 
@@ -317,4 +319,48 @@ function drawPicture() {
   pictureTriangle([0.05, 0.95, 0.07, 0.93, 0.09, 0.95], [0.0, 0.0, 0.0, 1.0]); // Body
   pictureTriangle([0.07, 0.93, 0.09, 0.95, 0.07, 0.97], [0.0, 0.0, 0.0, 1.0]); // Head
   pictureTriangle([0.09, 0.95, 0.11, 0.93, 0.13, 0.95], [0.0, 0.0, 0.0, 1.0]); // Wing
+}
+
+function generateRandomDrawing() {
+  const numShapes = Math.floor(Math.random() * 100) + 50; // Generate 50 to 150 shapes
+
+  for (let i = 0; i < numShapes; i++) {
+    const type = Math.floor(Math.random() * 3); // Randomly select a shape type (0: POINT, 1: TRIANGLE, 2: CIRCLE)
+    const x = Math.random() * 2 - 1;
+    const y = Math.random() * 2 - 1;
+    const color = [Math.random(), Math.random(), Math.random(), 1.0]; // Generate random RGBA color
+    const size = Math.random() * 10 + 1;
+    const rotation = Math.random() * 360;
+    const strokeColor = [Math.random(), Math.random(), Math.random(), 1.0]; // Generate random RGBA stroke color
+    const strokeWidth = Math.random() * 5;
+    const spacingX = Math.random() * 2 - 1;
+    const spacingY = Math.random() * 2 - 1;
+    const sparkleInterval = Math.random() * 500 + 500; // Random sparkle interval
+
+    let shape;
+    if (type === POINT) {
+      shape = new Point();
+    } else if (type === TRIANGLE) {
+      shape = new Triangle();
+    } else {
+      shape = new Circle();
+      shape.segments = Math.floor(Math.random() * 10) + 3; // Random number of segments (3 to 12)
+    }
+
+    shape.position = [x + spacingX, y + spacingY];
+    shape.color = color;
+    shape.size = size;
+    shape.rotation = rotation;
+    shape.strokeColor = strokeColor;
+    shape.strokeWidth = strokeWidth;
+
+    // Add shimmering effect
+    setInterval(() => {
+      shape.color[3] = shape.color[3] === 1.0 ? 0.2 : 1.0; // Toggle transparency between 0.2 and 1.0
+    }, sparkleInterval);
+
+    g_shapeList.push(shape);
+  }
+
+  renderAllShapes();
 }
