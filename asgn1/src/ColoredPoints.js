@@ -1,6 +1,6 @@
 // Kevin Chen ASG1 4/13/24
 
-// test commit again drawing
+// test again
 
 var VSHADER_SOURCE = `
   attribute vec4 a_Position;

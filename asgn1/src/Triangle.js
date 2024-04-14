@@ -54,6 +54,7 @@ function drawTriangle(vertices) {
 }
 
 function pictureTriangle(vertices, color) {
+  // test added
   var n = 3; // The number of vertices
 
   // Create a buffer object
