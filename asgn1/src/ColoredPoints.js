@@ -205,6 +205,8 @@ function renderAllShapes() {
   }
 }
 
+// test add 
+
 function drawPicture(vertices, color) {
   pictureTriangle([-1, 1, -1, -1, 1, 1], [0.529, 0.808, 0.922, 1.0]); // Light blue for the sky
   pictureTriangle([1, 1, 1, -1, -1, -1], [0.529, 0.808, 0.922, 1.0]); // Light blue for the sky
