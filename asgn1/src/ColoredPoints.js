@@ -123,6 +123,12 @@ function addActionsForHtmlUI() {
   document.getElementById("circleButton").onclick = function () {
     g_selectedType = CIRCLE;
   };
+
+  // Draw Button
+  document.getElementById("drawButton").onclick = function () {
+    g_shapeList = [];
+    drawPicture();
+  };
 }
 
 function main() {
@@ -195,4 +201,116 @@ function renderAllShapes() {
   for (var i = 0; i < len; i++) {
     g_shapeList[i].render();
   }
+}
+
+function drawPicture(vertices, color) {
+  pictureTriangle([-1, 1, -1, -1, 1, 1], [0.529, 0.808, 0.922, 1.0]); // Light blue for the sky
+  pictureTriangle([1, 1, 1, -1, -1, -1], [0.529, 0.808, 0.922, 1.0]); // Light blue for the sky
+
+  // The sun
+  pictureTriangle([1, 1, 1, 0.7, 0.7, 1], [1.0, 1.0, 0.0, 1.0]);
+  pictureTriangle([0.7, 0.7, 1, 0.7, 0.7, 1], [1.0, 1.0, 0.0, 1.0]);
+
+  // Grass patch
+  pictureTriangle([-1, -1, 1, -0.7, 1, -1], [0.0, 0.4, 0.0, 1.0]);
+  pictureTriangle([-1, -1, -1, -0.7, 1, -0.7], [0.0, 0.4, 0.0, 1.0]);
+
+  // Dirt patch
+  pictureTriangle([-1, -0.7, 1, -0.55, 1, -0.7], [0.545, 0.271, 0.075, 1.0]);
+  pictureTriangle([-1, -0.7, -1, -0.55, 1, -0.55], [0.545, 0.271, 0.075, 1.0]);
+
+  // Cloud 1
+  pictureTriangle([-0.6, 0.8, -0.5, 0.78, -0.45, 0.82], [1.0, 1.0, 1.0, 1.0]);
+  pictureTriangle([-0.5, 0.78, -0.45, 0.82, -0.4, 0.8], [1.0, 1.0, 1.0, 1.0]);
+  // Cloud 2
+  pictureTriangle([0.2, 0.65, 0.3, 0.63, 0.35, 0.67], [1.0, 1.0, 1.0, 1.0]);
+  pictureTriangle([0.3, 0.63, 0.35, 0.67, 0.4, 0.65], [1.0, 1.0, 1.0, 1.0]);
+
+  // Cloud 3
+  pictureTriangle([0.6, 0.75, 0.7, 0.73, 0.75, 0.77], [1.0, 1.0, 1.0, 1.0]);
+  pictureTriangle([0.7, 0.73, 0.75, 0.77, 0.8, 0.75], [1.0, 1.0, 1.0, 1.0]);
+  // Cloud 4
+  pictureTriangle([-0.8, 0.55, -0.7, 0.53, -0.65, 0.57], [1.0, 1.0, 1.0, 1.0]);
+  pictureTriangle([-0.7, 0.53, -0.65, 0.57, -0.6, 0.55], [1.0, 1.0, 1.0, 1.0]);
+
+  // Trunk of the tree
+  pictureTriangle(
+    [-0.2, -0.7, -0.15, -0.5, -0.25, -0.5],
+    [0.294, 0.149, 0.0, 1.0]
+  );
+  pictureTriangle(
+    [-0.25, -0.7, -0.15, -0.7, -0.15, -0.5],
+    [0.294, 0.149, 0.0, 1.0]
+  );
+  pictureTriangle(
+    [-0.25, -0.7, -0.2, -0.7, -0.2, -0.5],
+    [0.294, 0.149, 0.0, 1.0]
+  );
+  pictureTriangle(
+    [-0.25, -0.5, -0.15, -0.5, -0.2, -0.3],
+    [0.294, 0.149, 0.0, 1.0]
+  );
+  pictureTriangle(
+    [-0.25, -0.5, -0.3, -0.3, -0.2, -0.3],
+    [0.294, 0.149, 0.0, 1.0]
+  );
+  // Leaves (bottom layer)
+  pictureTriangle(
+    [-0.3, -0.3, -0.2, -0.2, -0.4, -0.2],
+    [0.133, 0.545, 0.133, 1.0]
+  );
+  pictureTriangle(
+    [-0.4, -0.2, -0.2, -0.2, -0.3, -0.1],
+    [0.133, 0.545, 0.133, 1.0]
+  );
+  pictureTriangle(
+    [-0.3, -0.1, -0.2, -0.2, -0.1, -0.2],
+    [0.133, 0.545, 0.133, 1.0]
+  );
+  // Leaves (middle layer)
+  pictureTriangle(
+    [-0.25, -0.3, -0.15, -0.2, -0.35, -0.2],
+    [0.133, 0.545, 0.133, 1.0]
+  );
+  pictureTriangle(
+    [-0.35, -0.2, -0.15, -0.2, -0.25, -0.1],
+    [0.133, 0.545, 0.133, 1.0]
+  );
+  pictureTriangle(
+    [-0.25, -0.1, -0.15, -0.2, -0.05, -0.2],
+    [0.133, 0.545, 0.133, 1.0]
+  );
+  // Leaves (top layer)
+  pictureTriangle(
+    [-0.2, -0.3, -0.1, -0.2, -0.3, -0.2],
+    [0.133, 0.545, 0.133, 1.0]
+  );
+  pictureTriangle(
+    [-0.3, -0.2, -0.1, -0.2, -0.2, -0.1],
+    [0.133, 0.545, 0.133, 1.0]
+  );
+
+  // Bird 1
+  pictureTriangle(
+    [0.1, 0.9, 0.12, 0.88, 0.14, 0.9], 
+    [0.0, 0.0, 0.0, 1.0]
+  ); // Body
+  pictureTriangle([0.12, 0.88, 0.14, 0.9, 0.12, 0.92], [0.0, 0.0, 0.0, 1.0]); // Head
+  pictureTriangle([0.14, 0.9, 0.16, 0.88, 0.18, 0.9], [0.0, 0.0, 0.0, 1.0]); // Wing
+
+  // Bird 2
+  pictureTriangle([-0.1, 0.85, -0.12, 0.83, -0.14, 0.85], [0.0, 0.0, 0.0, 1.0]); // Body
+  pictureTriangle(
+    [-0.12, 0.83, -0.14, 0.85, -0.12, 0.87],
+    [0.0, 0.0, 0.0, 1.0]
+  ); // Head
+  pictureTriangle(
+    [-0.14, 0.85, -0.16, 0.83, -0.18, 0.85],
+    [0.0, 0.0, 0.0, 1.0]
+  ); // Wing
+
+  // Bird 3
+  pictureTriangle([0.05, 0.95, 0.07, 0.93, 0.09, 0.95], [0.0, 0.0, 0.0, 1.0]); // Body
+  pictureTriangle([0.07, 0.93, 0.09, 0.95, 0.07, 0.97], [0.0, 0.0, 0.0, 1.0]); // Head
+  pictureTriangle([0.09, 0.95, 0.11, 0.93, 0.13, 0.95], [0.0, 0.0, 0.0, 1.0]); // Wing
 }
